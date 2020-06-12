@@ -11,6 +11,9 @@ private double economy;
 private int ballsFaced;
 private int ballsDealt;
 
+// Class not used 
+// If I had time I will also show which player is batting and individual players score 
+
 public Player(String name) {
 	this.name = name;
 	runs = 0;

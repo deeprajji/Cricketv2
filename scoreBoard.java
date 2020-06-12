@@ -9,33 +9,33 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+
+// This is the main class where all the action happens 
+
 public class scoreBoard implements ActionListener {
+	
+// define and initialize class variables 
 	JPanel panel = new JPanel();
 	JFrame frame = new JFrame();
 	JFrame asker = new JFrame();
-	int resultOfBall;
-	
-	
-	
+	int resultOfBall;	
 	int scoreboardRuns;
 	NewBallGUI newBallacted;
-	
 	private String overs;//firstInning overs
 	private String secondInningOvers ; //second inning overs
 	private int balls = 0;
 	private int secondInningBalls = 0; // second inning balls
 	private int team1runs= 0;
 	private int team2runs = 0;
-	
 	private int outs= 0;
 	private int secondInningOUts = 0;
-	
 	private int ScoreToBeat;
 	private int lastBall;
 	ArrayList<Player> playersOnStrike = new ArrayList<>();
@@ -48,64 +48,34 @@ public class scoreBoard implements ActionListener {
 	JLabel label;
 	private double requiredStrikeRate;
 	private int ballsLeft;
-public scoreBoard(double maxOvers, Team team1, Team team2){
-	this.maxBalls = maxOvers * 6;
-	this.realteam1 = team1;
-	this.realteam2 = team2;
-	
-	 
-/*	JButton newBall = new JButton("New Ball");
-	
-	
-	newBall.addActionListener(new ActionListener() {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			 
-		String result = JOptionPane.showInputDialog(asker,"what was the result of the ball");
-		
-		resultOfBall = Integer.parseInt(result);
-		
-		}
-	});
-	panel.setBorder(BorderFactory.createEmptyBorder(30,30,30,30));
-	panel.setLayout(new GridLayout(0, 1));
-	panel.add(newBall);
-	panel.add(label);
-	
-	frame.add(panel, BorderLayout.CENTER);
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	frame.setTitle("Our GUI");
-	frame.pack(); 
-	frame.setVisible(true);
-}
-@Override
-public void actionPerformed(ActionEvent e) {
-	// TODO Auto-generated method stub
-	
-}
-public int returnResultOfBall() {
-	return resultOfBall;
-	*/
-}
 
-public void recalculateOvers(){
-	overs = "" + (balls/6) + "." + (balls%6);
-}
-public void recalculateSecondInningOvers() {
-	secondInningOvers = "" + (secondInningBalls/6) +"."+(secondInningBalls%6);
-}
+// main controller method
 public static void main(String[] args) throws InterruptedException {
+	
+	
+	// 1.0 Set up the rules for the game - Overs, and players 
 	settingUpGame x = new settingUpGame();
+	
+	// 2.0 Start the game and set the team 
 	
 	setUpOvers y = new setUpOvers();
 	scoreBoard firstTrial = new scoreBoard(y.returnMaxOvers(), x.team1, x.team2);
+	
+	// Set the batting team as Team 1 and bowling team as Team 2 
+	
 	firstTrial.battingTeam = firstTrial.realteam1;
 	firstTrial.BowlingTeam = firstTrial.realteam2;
 	JFrame ballResultAsker;
 	Border border = BorderFactory.createLineBorder(Color.white, 5);
+	
+	// Batting starts - Innings 1 
+	// Till maximum number of overs are bowled or the team is bowled out 
+	
 	while(firstTrial.balls < firstTrial.maxBalls && firstTrial.outs < firstTrial.battingTeam.team.size()) {
 		ballResultAsker = new JFrame();
-		String result = JOptionPane.showInputDialog(ballResultAsker,"what was the result of the ball");
+		// Determine the result of the ball [ 0-6] runs scored or -1 denotes the player is out 
+		
+		String result = JOptionPane.showInputDialog(ballResultAsker,"What was the result of the ball?[0-6 for runs, or Out (-1)");
 		if(result.compareTo("out") ==0|| result.compareTo("OUT")==0) {
 			firstTrial.resultOfBall= -1;
 		}
@@ -125,10 +95,8 @@ public static void main(String[] args) throws InterruptedException {
 			numberOfOvers.setBackground(Color.GREEN);
 			numberOfOvers.setOpaque(true);
 			
+			
 			JFrame scoreBoard = new JFrame();
-			
-			
-		
 			scoreBoard.setBackground(Color.pink);
 			
 			JPanel ScoreBoardPanel = new JPanel();
@@ -138,7 +106,7 @@ public static void main(String[] args) throws InterruptedException {
 			
 			scoreBoard.add(ScoreBoardPanel, BorderLayout.CENTER);
 			scoreBoard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			scoreBoard.setTitle("Our GUI");
+			scoreBoard.setTitle("Score Board");
 			scoreBoard.pack(); 
 			
 			
@@ -173,7 +141,7 @@ public static void main(String[] args) throws InterruptedException {
 			
 			scoreBoard.add(ScoreBoardPanel, BorderLayout.CENTER);
 			scoreBoard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			scoreBoard.setTitle("Our GUI");
+			scoreBoard.setTitle("Score Board");
 			scoreBoard.pack(); 
 			scoreBoard.setVisible(true);
 			
@@ -187,10 +155,19 @@ public static void main(String[] args) throws InterruptedException {
 	
 		
 	}
+	
+	// Innings Second; Determine the score to beat 
+	
+	
 	firstTrial.ScoreToBeat = firstTrial.team1runs;
+	//Reverse team batting and bowling 
+	
 	firstTrial.BowlingTeam = firstTrial.realteam1;
 	firstTrial.battingTeam = firstTrial.realteam2;
-	while((firstTrial.secondInningBalls <= firstTrial.maxBalls) && (firstTrial.secondInningOUts<firstTrial.battingTeam.team.size()) && (firstTrial.team2runs <= firstTrial.ScoreToBeat))  {
+	
+	
+	while((firstTrial.secondInningBalls <= firstTrial.maxBalls) && (firstTrial.secondInningOUts<firstTrial.battingTeam.team.size()) && (firstTrial.team2runs <= firstTrial.ScoreToBeat))  
+	{
 		ballResultAsker = new JFrame();
 		String result = JOptionPane.showInputDialog(ballResultAsker, "What was the result of the ball?");
 		if(result.compareTo("out") ==0|| result.compareTo("OUT")==0) {
@@ -226,7 +203,7 @@ public static void main(String[] args) throws InterruptedException {
 			requiredStrikeRate.setBackground(Color.GREEN);
 			requiredStrikeRate.setOpaque(true);
 			
-			JLabel whichInning = new JLabel("We are in Inning 2!");
+			JLabel whichInning = new JLabel("We are in Innings 2!");
 			whichInning.setBorder(border);
 			whichInning.setBackground(Color.LIGHT_GRAY);
 			whichInning.setOpaque(true);
@@ -316,6 +293,11 @@ public static void main(String[] args) throws InterruptedException {
 	
 	}
 	
+	//3.0 Determine which team won the match 
+	// Second team wins if they reach the scores to beat with balls to spare 
+	// Second team loses if they lose all wickets before all the balls are bowled in the innings 
+	// First and second team draw if they score equal runs 
+	
 	if(firstTrial.team2runs > firstTrial.ScoreToBeat) {
 		JFrame winner = new JFrame();
 		JPanel winnerPanel = new JPanel();
@@ -375,6 +357,28 @@ public static void main(String[] args) throws InterruptedException {
 		winnerPanel.add(team1scored);
 		winnerPanel.add(team2scored);
 	}
+} // end of main 
+
+public scoreBoard(double maxOvers, Team team1, Team team2)
+{
+	// There are 6 balls in a cricket over 
+	
+	this.maxBalls = maxOvers * 6;
+	this.realteam1 = team1;
+	this.realteam2 = team2;
+	
+} // end of Constructor 
+
+// determine the fraction of the over as balls bowled are less than 6 
+
+public void recalculateOvers(){
+	overs = "" + (balls/6) + "." + (balls%6);
+}
+
+// determine how many overs are in second innings 
+
+public void recalculateSecondInningOvers() {
+	secondInningOvers = "" + (secondInningBalls/6) +"."+(secondInningBalls%6);
 }
 
 @Override
