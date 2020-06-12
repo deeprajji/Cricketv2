@@ -8,7 +8,9 @@ public class settingUpGame {
 		Team team1 = new Team();
 		Team team2 = new Team();
 		int teamnum = 1;
-	// Constructor 
+	
+		
+		/** constructor which adds the players to the team by asking for their names and creating a new player object per player inputed*/
 		
 		public settingUpGame() {
 			
@@ -35,5 +37,3 @@ public class settingUpGame {
 		}
 		
 	}
-
-

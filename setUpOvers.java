@@ -4,7 +4,7 @@ public class setUpOvers {
 	JFrame f;
 	int overs;
 	double Finalovers;
-	// Determine number of overs in the game
+	/** determines the number of overs per inning */
 	public setUpOvers() {
 		f = new JFrame();
 		String StringNumber = JOptionPane.showInputDialog(f,"What is the maximum number of overs?");
@@ -12,6 +12,7 @@ public class setUpOvers {
 		Finalovers = (double)(overs);
 
 	}
+	/** returns the maximum number of overs */
 	public double returnMaxOvers() {
 		return Finalovers;
 	}

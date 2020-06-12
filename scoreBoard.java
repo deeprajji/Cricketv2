@@ -25,33 +25,32 @@ public class scoreBoard implements ActionListener {
 	JPanel panel = new JPanel();
 	JFrame frame = new JFrame();
 	JFrame asker = new JFrame();
-	int resultOfBall;	
-	int scoreboardRuns;
-	NewBallGUI newBallacted;
-	private String overs;//firstInning overs
-	private String secondInningOvers ; //second inning overs
-	private int balls = 0;
-	private int secondInningBalls = 0; // second inning balls
-	private int team1runs= 0;
-	private int team2runs = 0;
-	private int outs= 0;
-	private int secondInningOUts = 0;
-	private int ScoreToBeat;
-	private int lastBall;
-	ArrayList<Player> playersOnStrike = new ArrayList<>();
-	private double maxBalls;
-	Team realteam1;
-	Team realteam2;
-	Team battingTeam;
-	Team BowlingTeam;
-	ArrayList<Player> playerBowling = new ArrayList<>();
-	JLabel label;
-	private double requiredStrikeRate;
-	private int ballsLeft;
-
-// main controller method
-public static void main(String[] args) throws InterruptedException {
+	int resultOfBall;	 //the result of each ball, updates after each ball 
 	
+	
+	private String overs;//firstInning overs
+	private String secondInningOvers ;  //second inning overs 
+	private int balls = 0; //first inning balls 
+	private int secondInningBalls = 0;  // second inning balls 
+	private int team1runs= 0;  //the number of runs team 1 has scored 
+	private int team2runs = 0; //the number of runs team 2 has scored  
+	private int outs= 0;  // the number of outs team 1 has 
+	private int secondInningOUts = 0;  // the number of outs for the team batting 2nd 
+	private int ScoreToBeat;  //the score to beat 
+
+	private double maxBalls;  // the maximum number of balls per over 
+	Team realteam1;   // the real first team that is given its reference when constructed 
+	Team realteam2; // the real second team that is given its reference when constructed 
+	Team battingTeam;  // the team that is currently batting 
+	Team BowlingTeam;   // the team that is currently bowling  
+	JLabel label;
+	private double requiredStrikeRate;  // the required runs per ball necessary for the team batting second to win 
+	private int ballsLeft;  //the number of balls left in the innings 
+
+/**  main controller method */
+	/**	the main method is where the entire code is ran, it sets up the number of players on each side and who the players are. Then the first inning begins and it keeps taking the result of each ball, then displaying the scoreboard after each ball. First the first inning happens, then the second inning. In between innings, the bowling and batting team is switched. After both innings the winner is decided */
+
+public static void main(String[] args) throws InterruptedException {
 	
 	// 1.0 Set up the rules for the game - Overs, and players 
 	settingUpGame x = new settingUpGame();
@@ -75,10 +74,11 @@ public static void main(String[] args) throws InterruptedException {
 		ballResultAsker = new JFrame();
 		// Determine the result of the ball [ 0-6] runs scored or -1 denotes the player is out 
 		
-		String result = JOptionPane.showInputDialog(ballResultAsker,"What was the result of the ball?[0-6 for runs, or Out (-1)");
+		String result = JOptionPane.showInputDialog(ballResultAsker,"What was the result of the ball?");
 		if(result.compareTo("out") ==0|| result.compareTo("OUT")==0) {
 			firstTrial.resultOfBall= -1;
 		}
+		
 		else {
 		firstTrial.resultOfBall = Integer.parseInt(result);
 		}
@@ -118,6 +118,7 @@ public static void main(String[] args) throws InterruptedException {
 			scoreBoard.dispose();
 		}
 		else {
+			
 			firstTrial.outs ++;
 			firstTrial.balls++;
 			firstTrial.recalculateOvers();
@@ -135,7 +136,7 @@ public static void main(String[] args) throws InterruptedException {
 			scoreBoard.setBackground(Color.pink);
 			
 			JPanel ScoreBoardPanel = new JPanel();
-			ScoreBoardPanel.setBorder(BorderFactory.createEmptyBorder(90,90,90,90));
+			ScoreBoardPanel.setBorder(BorderFactory.createEmptyBorder(290,290,290,290));
 			ScoreBoardPanel.setLayout(new GridLayout(0, 1));
 			ScoreBoardPanel.setBackground(Color.BLACK);
 			
@@ -143,13 +144,17 @@ public static void main(String[] args) throws InterruptedException {
 			scoreBoard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			scoreBoard.setTitle("Score Board");
 			scoreBoard.pack(); 
-			scoreBoard.setVisible(true);
+		
 			
 			
 			ScoreBoardPanel.add(score);
 			ScoreBoardPanel.add(numberOfOvers);
+			scoreBoard.setSize(1600,1600);
+			scoreBoard.setVisible(true);
 			Thread.sleep(5000); // waits 5 seconds before it removes the frame and goes to the next ball
 			scoreBoard.dispose();
+		
+			
 		}
 		
 	
@@ -216,7 +221,7 @@ public static void main(String[] args) throws InterruptedException {
 			
 			JFrame scoreBoard = new JFrame();
 			JPanel ScoreBoardPanel = new JPanel();
-			ScoreBoardPanel.setBorder(BorderFactory.createEmptyBorder(90,90,90,90));
+			ScoreBoardPanel.setBorder(BorderFactory.createEmptyBorder(290,290,290,290));
 			ScoreBoardPanel.setLayout(new GridLayout(0, 1));
 			ScoreBoardPanel.setBackground(Color.BLACK);
 			
@@ -224,7 +229,7 @@ public static void main(String[] args) throws InterruptedException {
 			scoreBoard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			scoreBoard.setTitle("Second Inning");
 			scoreBoard.pack(); 
-			scoreBoard.setVisible(true);
+			
 			
 			ScoreBoardPanel.add(whichInning);
 			ScoreBoardPanel.add(scoreNeeded);
@@ -232,6 +237,8 @@ public static void main(String[] args) throws InterruptedException {
 			ScoreBoardPanel.add(numberOfOvers);
 			ScoreBoardPanel.add(numberOfBallsLeft);
 			ScoreBoardPanel.add(requiredStrikeRate);
+			scoreBoard.setSize(1600,1600);
+			scoreBoard.setVisible(true);
 			Thread.sleep(5000); // waits 5 seconds before it removes the frame and goes to the next ball
 			scoreBoard.dispose();
 			
@@ -280,13 +287,15 @@ public static void main(String[] args) throws InterruptedException {
 			scoreBoard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			scoreBoard.setTitle("Second Inning");
 			scoreBoard.pack(); 
-			scoreBoard.setVisible(true);
+			
 			
 			ScoreBoardPanel.add(whichInning);
 			ScoreBoardPanel.add(score);
 			ScoreBoardPanel.add(numberOfOvers);
 			ScoreBoardPanel.add(numberOfBallsLeft);
 			ScoreBoardPanel.add(requiredStrikeRate);
+			scoreBoard.setSize(1600,1600);
+			scoreBoard.setVisible(true);
 			Thread.sleep(5000); // waits 5 seconds before it removes the frame and goes to the next ball
 			scoreBoard.dispose();
 		}
@@ -358,10 +367,11 @@ public static void main(String[] args) throws InterruptedException {
 		winnerPanel.add(team2scored);
 	}
 } // end of main 
-
+/**	 There are 6 balls in a cricket over  */
+/**   constructor method, needs the max overs and references for each team */
 public scoreBoard(double maxOvers, Team team1, Team team2)
 {
-	// There are 6 balls in a cricket over 
+
 	
 	this.maxBalls = maxOvers * 6;
 	this.realteam1 = team1;
@@ -369,13 +379,15 @@ public scoreBoard(double maxOvers, Team team1, Team team2)
 	
 } // end of Constructor 
 
-// determine the fraction of the over as balls bowled are less than 6 
+ 
+/**  determines what the over is for the first inning depending on the number of balls that have been bowled thus far */
 
 public void recalculateOvers(){
 	overs = "" + (balls/6) + "." + (balls%6);
 }
 
-// determine how many overs are in second innings 
+
+/**  determines what the over is for the second inning depending on the number of balls that have been bowled thus far */
 
 public void recalculateSecondInningOvers() {
 	secondInningOvers = "" + (secondInningBalls/6) +"."+(secondInningBalls%6);

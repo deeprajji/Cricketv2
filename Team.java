@@ -12,6 +12,7 @@ public Team() {
 }
 ArrayList<Player> team = new ArrayList<Player>();
 
+/** returns the team reference*/
 public ArrayList<Player> team() {
 	return team;
 }
